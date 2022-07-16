@@ -7,5 +7,4 @@ int main()
 		printf("%s", x.cardHolderName);
 	else
 		printf("WRONG NAME");
-
 }
