@@ -16,7 +16,6 @@ static char* extractName(void)
 	if (cardName == NULL)
 		return NULL;
 
-
 	if (scanf_s("%[^\n]s", cardName, (unsigned)MAX_BUFFER) != 1)
 	{
 		free(cardName);
