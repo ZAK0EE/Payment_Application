@@ -30,30 +30,30 @@
     <ClCompile Include="main.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="app.c">
+    <ClCompile Include="Application\app.c">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="card.c">
+    <ClCompile Include="Card\card.c">
       <Filter>Card</Filter>
     </ClCompile>
-    <ClCompile Include="terminal.c">
+    <ClCompile Include="Terminal\terminal.c">
       <Filter>Terminal</Filter>
     </ClCompile>
-    <ClCompile Include="server.c">
+    <ClCompile Include="Server\server.c">
       <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h">
+    <ClInclude Include="Application\app.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="card.h">
+    <ClInclude Include="Card\card.h">
       <Filter>Card</Filter>
     </ClInclude>
-    <ClInclude Include="terminal.h">
+    <ClInclude Include="Terminal\terminal.h">
       <Filter>Terminal</Filter>
     </ClInclude>
-    <ClInclude Include="server.h">
+    <ClInclude Include="Server\server.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>

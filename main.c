@@ -1,6 +1,8 @@
 #include <stdio.h>
-
+#include "Card/card.h"
 int main()
 {
-	printf("Hello, world\n");
+	ST_cardData_t x;
+	getCardHolderName(&x);
+	printf("Hello, world %s\n", x.cardHolderName);
 }
