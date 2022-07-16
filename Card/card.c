@@ -16,7 +16,7 @@
 
 static char* extractName(void)
 {
-	printf("Please enter your name: ");
+	printf("Please enter name: ");
 
 	char* cardName = calloc(MAX_BUFFER, sizeof(char));
 	if (cardName == NULL)
@@ -31,12 +31,30 @@ static char* extractName(void)
 	return cardName;
 	
 }
+
+static uint8_t validateName(char* cardName)
+{
+	size_t cardNameLen = strlen(cardName);
+	uint8_t valid = 1;
+
+	for (int i = 0; i < cardNameLen; i++)
+	{
+		if (!isalpha(cardName[i]) && cardName[i] != ' ')
+		{
+			valid = 0;
+			break;
+		}
+	}
+
+	return valid;
+}
+
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 {
 	char* cardName = extractName();
 	size_t cardNameLen = strlen(cardName);
 	
-	if (cardName == NULL || cardNameLen > MAX_NAME_LEN || cardNameLen < MIN_NAME_LEN)
+	if (cardName == NULL || cardNameLen > MAX_NAME_LEN || cardNameLen < MIN_NAME_LEN || !validateName(cardName))
 		return WRONG_NAME;
 
 	strcpy_s(cardData->cardHolderName, cardNameLen + 1, cardName);
