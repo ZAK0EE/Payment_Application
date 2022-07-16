@@ -39,6 +39,8 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 
 	strcpy_s(cardData->cardHolderName, cardNameLen + 1, cardName);
 
+	free(cardName);
+
 	return OK;
 }
 
