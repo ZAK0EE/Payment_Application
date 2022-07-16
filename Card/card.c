@@ -28,7 +28,6 @@ static char* extractName(void)
 	return cardName;
 	
 }
-
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 {
 	char* cardName = extractName();
@@ -43,6 +42,8 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 
 	return OK;
 }
+
+
 
 static char* extractExpDate(void)
 {
@@ -61,7 +62,6 @@ static char* extractExpDate(void)
 	return cardExpDate;
 
 }
-
 static uint8_t validateExpDate(char* expDate)
 {
 	if (expDate == NULL ||!isdigit(expDate[0]) || !isdigit(expDate[1]) || expDate[2] != '/'
@@ -70,7 +70,6 @@ static uint8_t validateExpDate(char* expDate)
 
 	return 1;
 }
-
 EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 {
 	char* cardExpDate = extractExpDate();
@@ -86,5 +85,7 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 	return OK;
 
 }
+
+
 
 EN_cardError_t getCardPAN(ST_cardData_t* cardData);
