@@ -22,4 +22,5 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t* cardData);
 EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData);
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData);
 EN_terminalError_t setMaxAmount(ST_terminalData_t* termData);
+
 #endif // _TERMINAL_
