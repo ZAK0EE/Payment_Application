@@ -127,7 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="app.c" />
+    <ClCompile Include="card.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="server.c" />
+    <ClCompile Include="terminal.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app.h" />
+    <ClInclude Include="card.h" />
+    <ClInclude Include="server.h" />
+    <ClInclude Include="terminal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

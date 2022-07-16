@@ -13,10 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{0b3fb014-8045-4152-8ac9-1d1caaf2b774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Card">
+      <UniqueIdentifier>{d4922076-e87f-494a-8b31-183f68159dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Terminal">
+      <UniqueIdentifier>{4af0fc53-b06b-4e7d-b89b-d2dbf6d3d906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{350d6ac7-cba4-47a0-8d60-d247dbae47fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="app.c">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="card.c">
+      <Filter>Card</Filter>
+    </ClCompile>
+    <ClCompile Include="terminal.c">
+      <Filter>Terminal</Filter>
+    </ClCompile>
+    <ClCompile Include="server.c">
+      <Filter>Server</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="card.h">
+      <Filter>Card</Filter>
+    </ClInclude>
+    <ClInclude Include="terminal.h">
+      <Filter>Terminal</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
