@@ -11,6 +11,9 @@
 
 #define EXPDATELEN 5
 
+#define MAX_PAN_LEN 19
+#define MIN_PAN_LEN 16
+
 static char* extractName(void)
 {
 	printf("Please enter your name: ");
@@ -62,6 +65,7 @@ static char* extractExpDate(void)
 	return cardExpDate;
 
 }
+
 static uint8_t validateExpDate(char* expDate)
 {
 	if (expDate == NULL ||!isdigit(expDate[0]) || !isdigit(expDate[1]) || expDate[2] != '/'
@@ -70,6 +74,7 @@ static uint8_t validateExpDate(char* expDate)
 
 	return 1;
 }
+
 EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 {
 	char* cardExpDate = extractExpDate();
@@ -83,9 +88,56 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 	free(cardExpDate);
 
 	return OK;
-
 }
 
 
 
-EN_cardError_t getCardPAN(ST_cardData_t* cardData);
+static char* extractPAN(void)
+{
+	printf("Please enter PAN: ");
+
+	char* cardPAN = calloc(MAX_BUFFER, sizeof(char));
+	if (cardPAN == NULL)
+		return NULL;
+
+	if (scanf_s("%s", cardPAN, (unsigned)MAX_BUFFER) != 1)
+	{
+		free(cardPAN);
+		cardPAN = NULL;
+	}
+
+	return cardPAN;
+
+}
+
+static uint8_t validatePAN(char* cardPAN)
+{
+	size_t cardPANLen = strlen(cardPAN);
+	uint8_t valid = 1;
+
+	for (int i = 0; i < cardPANLen; i++)
+	{
+		if (!isalnum(cardPAN[i]))
+		{
+			valid = 0;
+			break;
+		}
+	}
+
+	return valid;
+}
+
+EN_cardError_t getCardPAN(ST_cardData_t* cardData)
+{
+	char* cardPAN = extractPAN();
+	size_t cardPANLen = strlen(cardPAN);
+
+	if (cardPAN == NULL || cardPANLen > MAX_PAN_LEN || cardPANLen < MIN_PAN_LEN || !validatePAN(cardPAN))
+		return WRONG_PAN;
+
+	strcpy_s(cardData->primaryAccountNumber, cardPANLen + 1, cardPAN);
+
+	free(cardPAN);
+
+	return OK;
+}
