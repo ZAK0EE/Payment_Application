@@ -2,7 +2,8 @@
 #define _TERMINAL_
 
 #include <inttypes.h>
-#include "../Card/card.h"
+
+typedef struct ST_cardData_t ST_cardData_t;
 
 typedef struct ST_terminalData_t
 {
