@@ -33,14 +33,14 @@
     <ClCompile Include="Application\app.c">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="Card\card.c">
-      <Filter>Card</Filter>
-    </ClCompile>
     <ClCompile Include="Terminal\terminal.c">
       <Filter>Terminal</Filter>
     </ClCompile>
     <ClCompile Include="Server\server.c">
       <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Card\card.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "card.h"
+#include "Card/card.h"
 
 #define MAX_NAME_LEN 24
 #define MIN_NAME_LEN 20 
