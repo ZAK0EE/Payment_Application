@@ -61,7 +61,7 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 
 	free(cardName);
 
-	return OK;
+	return CARD_OK;
 }
 
 
@@ -105,7 +105,7 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 
 	free(cardExpDate);
 
-	return OK;
+	return CARD_OK;
 }
 
 
@@ -157,5 +157,5 @@ EN_cardError_t getCardPAN(ST_cardData_t* cardData)
 
 	free(cardPAN);
 
-	return OK;
+	return CARD_OK;
 }
