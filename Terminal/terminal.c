@@ -79,5 +79,16 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData)
 
 	return OK;
 }
-EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData);
-EN_terminalError_t setMaxAmount(ST_terminalData_t* termData);
+
+
+
+EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
+{
+	if (termData->transAmount > termData->maxTransAmount)
+		return EXCEED_MAX_AMOUNT;
+	return OK;
+}
+
+
+
+static float getMaxAmount()
