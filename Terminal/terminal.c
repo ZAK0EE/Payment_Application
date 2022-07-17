@@ -56,5 +56,28 @@ EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termD
 
 
 
+static float getAmount()
+{
+	float amount = 0;
+	printf("Please enter amount: ");
+	if (scanf_s("%f", &amount) != 1)
+	{
+		return 0;
+	}
+
+	return amount;
+}
+
+EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData)
+{
+	float amount = getAmount();
+
+	if (amount <= 0)
+		return INVALID_AMOUNT;
+
+	termData->transAmount = amount;
+
+	return OK;
+}
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData);
 EN_terminalError_t setMaxAmount(ST_terminalData_t* termData);
