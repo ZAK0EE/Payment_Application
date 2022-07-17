@@ -5,12 +5,6 @@
 
 #include "terminal.h"
 
-typedef struct ST_cardData_t
-{
-	uint8_t cardHolderName[25];
-	uint8_t primaryAccountNumber[20];
-	uint8_t cardExpirationDate[6];
-}ST_cardData_t;
 
 
 
@@ -31,7 +25,7 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 	if (strcpy_s(termData->transactionDate, (unsigned)11, timeString) != 0)
 		return WRONG_DATE;
 
-	return OK;
+	return TERMINAL_OK;
 
 }
 
@@ -51,7 +45,7 @@ EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termD
 
 	if (cardYr < transYr || (cardYr == transYr && cardMon < transMon))
 		return EXPIRED_CARD;
-	return OK;
+	return TERMINAL_OK;
 }
 
 
@@ -77,7 +71,7 @@ EN_terminalError_t getTransactionAmount(ST_terminalData_t* termData)
 
 	termData->transAmount = amount;
 
-	return OK;
+	return TERMINAL_OK;
 }
 
 
@@ -86,7 +80,7 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
 {
 	if (termData->transAmount > termData->maxTransAmount)
 		return EXCEED_MAX_AMOUNT;
-	return OK;
+	return TERMINAL_OK;
 }
 
 
@@ -110,5 +104,5 @@ EN_terminalError_t setMaxAmount(ST_terminalData_t* termData)
 
 	termData->maxTransAmount = maxAmount;
 
-	return OK;
+	return TERMINAL_OK;
 }
