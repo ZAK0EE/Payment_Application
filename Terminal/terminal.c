@@ -92,3 +92,23 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
 
 
 static float getMaxAmount()
+{
+	float maxAmount = 0;
+	printf("Please enter max amount: ");
+	if (scanf_s("%f", &maxAmount) != 1)
+	{
+		return 0;
+	}
+
+	return maxAmount;
+}
+EN_terminalError_t setMaxAmount(ST_terminalData_t* termData)
+{
+	float maxAmount = getMaxAmount();
+	if (maxAmount <= 0)
+		return INVALID_MAX_AMOUNT;
+
+	termData->maxTransAmount = maxAmount;
+
+	return OK;
+}
