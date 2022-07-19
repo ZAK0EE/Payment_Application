@@ -11,7 +11,6 @@ EN_serverError_t updateBalance(ST_transaction_t* transData)
 	fopen_s(&file, "./DB/Accounts DB.txt", "r+");
 	if (file == 0)
 	{
-		printf("failed");
 		return SAVING_FAILED;
 	}
 
