@@ -5,8 +5,36 @@
 #include "server.h"
 
 
-ST_transaction_t transactions[255];
+EN_serverError_t updateBalance(ST_transaction_t* transData)
+{
+	FILE* file = NULL;
+	fopen_s(&file, "./DB/Accounts DB.txt", "r+");
+	if (file == 0)
+	{
+		printf("failed");
+		return SAVING_FAILED;
+	}
 
+
+	char buffer[50] = {0};
+	float balance = 0;
+	while (fscanf_s(file, "Card Data: %[^,] , ", buffer, (unsigned int)_countof(buffer)) != EOF)
+	{
+		if (strcmp(transData->cardHolderData.primaryAccountNumber, buffer) == 0)
+		{
+			long pos = ftell(file);
+			fscanf_s(file, "%f", &balance);
+
+			fseek(file, pos, SEEK_SET);
+			fprintf(file, "%f", balance - transData->terminalData.transAmount);
+
+			break;
+		}
+
+		fscanf_s(file, "%*[^\n]\n");
+	}
+
+	fclose(file);
 
 	return SERVER_OK;
 }
