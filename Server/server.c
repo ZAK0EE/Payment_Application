@@ -8,22 +8,30 @@
 ST_transaction_t transactions[255];
 
 
-EN_transState_t recieveTransactionData(ST_transaction_t* transData);/*
+	return SERVER_OK;
+}
+
+EN_transState_t recieveTransactionData(ST_transaction_t* transData)
 {
-	if (isValidAccount(&transData->cardHolderData) == DECLINED_STOLEN_CARD)
-		return DECLINED_STOLEN_CARD;
+	EN_transState_t state;
 
-	if (isAmountAvailable(transData) == LOW_BALANCE)
-		return DECLINED_INSUFFECIENT_FUND;
+	if (isValidAccount(&transData->cardHolderData) == ACCOUNT_NOT_FOUND)
+		state = DECLINED_STOLEN_CARD;
+	else if (isAmountAvailable(transData) == LOW_BALANCE)
+		state = DECLINED_INSUFFECIENT_FUND;
+	else
+		state = APPROVED;
 
+	transData->transState = state;
 	if (saveTransaction(transData) == SAVING_FAILED)
 		return INTERNAL_SERVER_ERROR;
 
-	//UpdateBalance();
+	if (state == APPROVED)
+		updateBalance(transData);
 
-	return APPROVED;
+	return state;
 
-}*/
+}
 
 EN_serverError_t isValidAccount(ST_cardData_t* cardData)
 {
@@ -38,11 +46,14 @@ EN_serverError_t isValidAccount(ST_cardData_t* cardData)
 	while (fscanf_s(file, "Card Data: %[^,] ,  %*f\n", buffer, (unsigned int)_countof(buffer)) != EOF)
 	{
 		if (strcmp(cardData->primaryAccountNumber, buffer) == 0)
+		{
+			fclose(file);
 			return SERVER_OK;
+		}
+			
 	}
 
-	fclose(file);
-	return DECLINED_STOLEN_CARD;
+	return ACCOUNT_NOT_FOUND;
 
 }
 
@@ -64,9 +75,16 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 		if (strcmp(cardData->primaryAccountNumber, buffer) == 0)
 		{
 			if (transData->terminalData.transAmount > balance)
-				return LOW_BALANCE;
+			{
+				fclose(file);
+				return LOW_BALANCE;			
+			}
 			else
+			{
+				fclose(file);
 				return SERVER_OK;
+			}
+				
 		}
 	}
 
@@ -104,6 +122,7 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData)
 
 	fclose(file);
 
+	return SERVER_OK;
 }
 
 EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transaction_t* transData)
@@ -117,8 +136,12 @@ EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transacti
 	int result = 0;
 	while (transNumber++ < transactionSequenceNumber && (result = fscanf_s(file, "%*[^\n]\n")) != EOF);
 
-	if(result == EOF)
+	if (result == EOF)
+	{
+		fclose(file);
 		return TRANSACTION_NOT_FOUND;
+	}
+		
 
 	ST_cardData_t* card = &transData->cardHolderData;
 	ST_terminalData_t* terminal = &transData->terminalData;
