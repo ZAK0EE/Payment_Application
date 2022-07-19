@@ -102,8 +102,38 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData)
 	fprintf(file, "Terminal Data: %f, %s, %f\n", terminal->maxTransAmount, terminal->transactionDate, terminal->transAmount);
 	
 
-	printf("%d", transNumber);
 	fclose(file);
 
 }
-EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transaction_t* transData);
+
+EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transaction_t* transData)
+{
+	FILE* file = NULL;
+	fopen_s(&file, "./DB/Transactions DB.txt", "r");
+	if (file == 0)
+		return TRANSACTION_NOT_FOUND;
+
+	int transNumber = 0;
+	int result = 0;
+	while (transNumber++ < transactionSequenceNumber && (result = fscanf_s(file, "%*[^\n]\n")) != EOF);
+
+	if(result == EOF)
+		return TRANSACTION_NOT_FOUND;
+
+	ST_cardData_t* card = &transData->cardHolderData;
+	ST_terminalData_t* terminal = &transData->terminalData;
+
+	fscanf_s(file, "Transaction Data: %d, %d, ", &transData->transactionSequenceNumber, &transData->transState);
+	fscanf_s(file, "Card Data: %[^,] ,  %[^,] ,  %[^,] , ", card->primaryAccountNumber, (unsigned int)_countof(card->primaryAccountNumber),
+															card->cardHolderName, (unsigned int)_countof(card->cardHolderName),
+															card->cardExpirationDate, (unsigned int)_countof(card->cardExpirationDate));
+
+	fscanf_s(file, "Terminal Data: %f,  %[^,] , %f\n", &terminal->maxTransAmount, 
+													   terminal->transactionDate, (unsigned int)_countof(terminal->transactionDate),
+													   &terminal->transAmount);
+
+	fclose(file);
+
+	return SERVER_OK;
+
+}
