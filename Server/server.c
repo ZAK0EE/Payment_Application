@@ -41,6 +41,7 @@ EN_serverError_t isValidAccount(ST_cardData_t* cardData)
 			return SERVER_OK;
 	}
 
+	fclose(file);
 	return DECLINED_STOLEN_CARD;
 
 }
@@ -69,6 +70,40 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 		}
 	}
 
+	fclose(file);
+
+	return ACCOUNT_NOT_FOUND;
+
 }
-EN_serverError_t saveTransaction(ST_transaction_t* transData);
+
+EN_serverError_t saveTransaction(ST_transaction_t* transData)
+{
+	ST_cardData_t* cardData = &transData->cardHolderData;
+
+	FILE* file = NULL;
+	fopen_s(&file, "./DB/Transactions DB.txt", "a+");
+	if (file == 0)
+		return SAVING_FAILED;
+
+	int transNumber = 0;
+	
+	while (fscanf_s(file, "%*[^\n]\n") != EOF)
+	{
+		transNumber++;
+	}
+
+	transData->transactionSequenceNumber = transNumber;
+
+	ST_cardData_t *card = &transData->cardHolderData;
+	ST_terminalData_t* terminal = &transData->terminalData;
+
+	fprintf(file, "Transaction Data: %d, %d, ", transData->transactionSequenceNumber, transData->transState);
+	fprintf(file, "Card Data: %s, %s, %s, ", card->primaryAccountNumber, card->cardHolderName, card->cardExpirationDate);
+	fprintf(file, "Terminal Data: %f, %s, %f\n", terminal->maxTransAmount, terminal->transactionDate, terminal->transAmount);
+	
+
+	printf("%d", transNumber);
+	fclose(file);
+
+}
 EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transaction_t* transData);
