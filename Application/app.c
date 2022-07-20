@@ -86,4 +86,6 @@ void appStart(void)
 		return;
 	}
 
+	printf("Transaction is done successfully.\n");
+
 }
