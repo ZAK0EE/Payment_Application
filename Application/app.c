@@ -7,6 +7,8 @@
 void appStart(void)
 { 
 	// *********************************************Card side*********************************************
+	printf("[DEBUG]Card Module\n\n");
+
 	ST_cardData_t cardData;
 	if (getCardHolderName(&cardData) == WRONG_NAME)
 	{
@@ -28,6 +30,8 @@ void appStart(void)
 
 
 	// *********************************************Terminal side*********************************************
+	printf("\n[DEBUG]Terminal Module\n\n");
+
 	ST_terminalData_t termData;
 	if (getTransactionDate(&termData) == WRONG_DATE)
 	{
@@ -56,36 +60,33 @@ void appStart(void)
 
 	if (isBelowMaxAmount(&termData) == EXCEED_MAX_AMOUNT)
 	{
-		printf("[ERROR]EXPIRED_CARD\a\n");
+		printf("[ERROR]EXCEED_MAX_AMOUNT\a\n");
 		return;
 
 	}
 
-	// *********************************************Server *********************************************
+	// *********************************************Server side*********************************************
+	printf("\n[DEBUG]Server Module\n\n");
+
 	ST_transaction_t transData;
 	transData.cardHolderData = cardData;
 	transData.terminalData = termData;
 
-	if (isValidAccount(&cardData) == ACCOUNT_NOT_FOUND)
+	switch (recieveTransactionData(&transData))
 	{
-		printf("[ERROR]ACCOUNT_NOT_FOUND\a\n");
-		return;
-	}
-
-
-	if (isAmountAvailable(&transData) == LOW_BALANCE)
-	{
-		printf("[ERROR]LOW_BALANCE\a\n");
-		return;
-	}
-
-
-	if (recieveTransactionData(&transData) == INTERNAL_SERVER_ERROR)
-	{
+	case DECLINED_STOLEN_CARD:
+		printf("[ERROR]DECLINED_STOLEN_CARD\a\n");
+		break;
+	case DECLINED_INSUFFECIENT_FUND:
+		printf("[ERROR]DECLINED_INSUFFECIENT_FUND\a\n");
+		break;
+	case INTERNAL_SERVER_ERROR:
 		printf("[ERROR]INTERNAL_SERVER_ERROR\a\n");
-		return;
+		break;
+	default:
+		printf("[INFO]Transaction is done successfully.\n");
+		break;
 	}
 
-	printf("Transaction is done successfully.\n");
 
 }
