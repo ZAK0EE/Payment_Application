@@ -91,7 +91,7 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 	FILE* file = NULL;
 	fopen_s(&file, "./DB/Accounts DB.txt", "r");
 	if (file == 0)
-		return INTERNAL_SERVER_ERROR;
+		return ACCOUNT_NOT_FOUND;
 
 	char buffer[30] = { 0 };
 	float balance = 0;
