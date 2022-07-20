@@ -29,3 +29,4 @@ Transaction Data: 27, 0, Card Data: LOAKJ123890KOPKCASD, Mohammed Ahmed Aliaz, 0
 Transaction Data: 28, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 02/23, Terminal Data: 700.000000, 20/07/2022, 623.000000
 Transaction Data: 29, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 02/23, Terminal Data: 700.000000, 20/07/2022, 623.000000
 Transaction Data: 30, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 02/23, Terminal Data: 700.000000, 20/07/2022, 623.000000
+Transaction Data: 31, 0, Card Data: ASDP123OPI3O1POIPOI, Mohamed Ahmed Ibrahim, 07/22, Terminal Data: 100.000000, 20/07/2022, 50.000000
