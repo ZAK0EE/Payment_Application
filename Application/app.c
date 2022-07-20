@@ -6,7 +6,6 @@
 
 void appStart(void)
 { 
-	fflush(stdin); fflush(stdout);
 	// *********************************************Card side*********************************************
 	ST_cardData_t cardData;
 	if (getCardHolderName(&cardData) == WRONG_NAME)
