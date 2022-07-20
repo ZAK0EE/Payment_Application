@@ -5,7 +5,7 @@
 #include "server.h"
 
 
-EN_serverError_t updateBalance(ST_transaction_t* transData)
+static EN_serverError_t updateBalance(ST_transaction_t* transData)
 {
 	FILE* file = NULL;
 	fopen_s(&file, "./DB/Accounts DB.txt", "r+");
