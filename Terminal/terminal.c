@@ -40,7 +40,7 @@ EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termD
 		return EXPIRED_CARD;
 	cardYr += 2000; //cardYr is stored as YY
 
-	if(sscanf_s(termData.transactionDate, "%d/%d/%d", &transMon, &transMon, &transYr) != 3)
+	if(sscanf_s(termData.transactionDate, "%*d/%d/%d", &transMon, &transYr) != 2)
 		return EXPIRED_CARD;
 
 	if (cardYr < transYr || (cardYr == transYr && cardMon < transMon))
