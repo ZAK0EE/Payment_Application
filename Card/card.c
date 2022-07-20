@@ -52,10 +52,17 @@ static uint8_t validateName(char* cardName)
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 {
 	char* cardName = extractName();
-	size_t cardNameLen = strlen(cardName);
+
+	size_t cardNameLen;
+	if(cardName != NULL)
+		cardNameLen = strlen(cardName);
 	
 	if (cardName == NULL || cardNameLen > MAX_NAME_LEN || cardNameLen < MIN_NAME_LEN || !validateName(cardName))
+	{
+		free(cardName);
 		return WRONG_NAME;
+	}
+		
 
 	strcpy_s(cardData->cardHolderName, cardNameLen + 1, cardName);
 
@@ -96,7 +103,10 @@ static uint8_t validateExpDate(char* expDate)
 EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 {
 	char* cardExpDate = extractExpDate();
-	size_t cardExpDateLen = strlen(cardExpDate);
+
+	size_t cardExpDateLen;
+	if(cardExpDate != NULL)
+		cardExpDateLen = strlen(cardExpDate);
 
 	if (cardExpDate == NULL || cardExpDateLen != EXPDATELEN || !validateExpDate(cardExpDate))
 		return WRONG_EXP_DATE;
@@ -148,7 +158,10 @@ static uint8_t validatePAN(char* cardPAN)
 EN_cardError_t getCardPAN(ST_cardData_t* cardData)
 {
 	char* cardPAN = extractPAN();
-	size_t cardPANLen = strlen(cardPAN);
+
+	size_t cardPANLen;
+	if(cardPAN != NULL)
+		cardPANLen = strlen(cardPAN);
 
 	if (cardPAN == NULL || cardPANLen > MAX_PAN_LEN || cardPANLen < MIN_PAN_LEN || !validatePAN(cardPAN))
 		return WRONG_PAN;

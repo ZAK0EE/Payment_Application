@@ -1,10 +1,8 @@
 #include <stdio.h>
-#include "Card\card.h"
+
+#include "Application/app.h"
+
 int main()
 {
-	ST_cardData_t x;
-	if (getCardHolderName(&x) != WRONG_NAME)
-		printf("%s", x.cardHolderName);
-	else
-		printf("WRONG NAME");
+		appStart();  
 }
