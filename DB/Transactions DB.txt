@@ -29,3 +29,14 @@ Transaction Data: 27, 0, Card Data: LOAKJ123890KOPKCASD, Mohammed Ahmed Aliaz, 0
 Transaction Data: 28, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 02/23, Terminal Data: 700.000000, 20/07/2022, 623.000000
 Transaction Data: 29, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 02/23, Terminal Data: 700.000000, 20/07/2022, 623.000000
 Transaction Data: 30, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 02/23, Terminal Data: 700.000000, 20/07/2022, 623.000000
+Transaction Data: 31, 0, Card Data: ASDP123OPI3O1POIPOI, Mohamed Ahmed Ibrahim, 07/22, Terminal Data: 100.000000, 20/07/2022, 50.000000
+Transaction Data: 32, 1, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 150.000000, 20/07/2022, 100.000000
+Transaction Data: 33, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 100.000000, 20/07/2022, 50.000000
+Transaction Data: 34, 1, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 100.000000, 20/07/2022, 50.000000
+Transaction Data: 35, 0, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 50.000000, 20/07/2022, 20.000000
+Transaction Data: 36, 2, Card Data: ASDP123OPI3O1POIPOI, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 50.000000, 20/07/2022, 10.000000
+Transaction Data: 37, -858993460, Card Data: ASDAS64321321321233, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 700.000000, 21/07/2022, 623.000000
+Transaction Data: 38, 0, Card Data: ASDAS64321321321233, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 700.000000, 21/07/2022, 623.000000
+Transaction Data: 39, 1, Card Data: A1O312312312OK12Kdd, Ziad Ashraf Kamel Gamal, 02/25, Terminal Data: 10000.000000, 21/07/2022, 5000.000000
+Transaction Data: 40, 0, Card Data: ASDAS64321321321233, Mohammed Ahmed Aliaz, 07/22, Terminal Data: 5000.000000, 21/07/2022, 1000.000000
+Transaction Data: 41, 1, Card Data: A1O312312312OK12Kdd, Ziad Ashraf Kamel Gamal, 02/25, Terminal Data: 10000.000000, 21/07/2022, 5000.000000
