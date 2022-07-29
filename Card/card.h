@@ -15,6 +15,7 @@ typedef enum EN_cardError_t
 	CARD_OK, WRONG_NAME, WRONG_EXP_DATE, WRONG_PAN
 }EN_cardError_t;
 
+
 /** @brief This function will ask for the cardholder's name and store it into card data.
  *  @param cardData The user's card data.
  *  @return If the cardholder name is NULL, less than 20 characters or more than 24 will return WRONG_NAME error, else return OK.
