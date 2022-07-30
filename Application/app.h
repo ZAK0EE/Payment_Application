@@ -11,7 +11,7 @@
 * VOID : this means canceling the transaction, e.g if the seller entered the wrong amount.
 * 
 * 
-* This application is implementing the SALE transaction only by simulating the card, terminal(ATM), and the server.
+* This application is implementings the SALE transaction only by simulating the card, terminal(ATM), and the server.
 */
 void appStart(void);
 

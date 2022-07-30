@@ -5,6 +5,10 @@
 #include "server.h"
 
 
+/** @brief This function will update the Accounts database with the new balance after transaction
+ *  @param transData The user's transaction data.
+ *  @return If transaction can't be saved will return SAVING_FAILED, else will return OK.
+ */
 static EN_serverError_t updateBalance(ST_transaction_t* transData)
 {
 	FILE* file = NULL;
@@ -21,10 +25,10 @@ static EN_serverError_t updateBalance(ST_transaction_t* transData)
 	{
 		if (strcmp(transData->cardHolderData.primaryAccountNumber, buffer) == 0)
 		{
-			long pos = ftell(file);
+			long pos = ftell(file); // Stores the balance position, so we can overwrite later.
 			fscanf_s(file, "%f", &balance);
 
-			fseek(file, pos, SEEK_SET);
+			fseek(file, pos, SEEK_SET); // Go back to balance position to overwrite it with the new value.
 			fprintf(file, "%f", balance - transData->terminalData.transAmount);
 
 			break;
@@ -67,10 +71,11 @@ EN_serverError_t isValidAccount(ST_cardData_t* cardData)
 	if (file == 0)
 		return INTERNAL_SERVER_ERROR;
 
+	int result = 0;
 	char buffer[30] = { 0 };
 
 	// Checking for PAN in DB
-	while (fscanf_s(file, "Card Data: %[^,] ,  %*f\n", buffer, (unsigned int)_countof(buffer)) != EOF)
+	while ((result = fscanf_s(file, "Card Data: %[^,] ,  %*f\n", buffer, (unsigned int)_countof(buffer))) != EOF)
 	{
 		if (strcmp(cardData->primaryAccountNumber, buffer) == 0)
 		{
@@ -95,9 +100,10 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 
 	char buffer[30] = { 0 };
 	float balance = 0;
+	int result = 0;
 
 	// Checking for PAN in DB
-	while (fscanf_s(file, "Card Data: %[^,] ,  %f\n", buffer, (unsigned int)_countof(buffer), &balance) != EOF)
+	while ((result = fscanf_s(file, "Card Data: %[^,] ,  %f\n", buffer, (unsigned int)_countof(buffer), &balance)) != EOF)
 	{
 		if (strcmp(cardData->primaryAccountNumber, buffer) == 0)
 		{
@@ -123,7 +129,7 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 
 EN_serverError_t saveTransaction(ST_transaction_t* transData)
 {
-	ST_cardData_t* cardData = &transData->cardHolderData;
+	ST_cardData_t* cardData = &(transData->cardHolderData);
 
 	FILE* file = NULL;
 	fopen_s(&file, "./DB/Transactions DB.txt", "a+");
@@ -131,8 +137,9 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData)
 		return SAVING_FAILED;
 
 	int transNumber = 0;
+	int result = 0;
 	
-	while (fscanf_s(file, "%*[^\n]\n") != EOF)
+	while ((result = fscanf_s(file, "%*[^\n]\n")) != EOF)
 	{
 		transNumber++;
 	}
@@ -161,7 +168,7 @@ EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transacti
 
 	int transNumber = 0;
 	int result = 0;
-	while (transNumber++ < transactionSequenceNumber && (result = fscanf_s(file, "%*[^\n]\n")) != EOF);
+	while ((transNumber++ < transactionSequenceNumber) && ((result = fscanf_s(file, "%*[^\n]\n")) != EOF));
 
 	if (result == EOF)
 	{
