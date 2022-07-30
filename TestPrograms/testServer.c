@@ -6,8 +6,8 @@
 
 void printTransaction(ST_transaction_t* transData)
 {
-	ST_cardData_t* card = &transData->cardHolderData;
-	ST_terminalData_t *terminal = &transData->terminalData;
+	ST_cardData_t* card = &(transData->cardHolderData);
+	ST_terminalData_t *terminal = &(transData->terminalData);
 
 	printf("Transaction Data: %d, %d, ", transData->transactionSequenceNumber, transData->transState);
 	printf("Card Data: %s, %s, %s, ", card->primaryAccountNumber, card->cardHolderName, card->cardExpirationDate);
