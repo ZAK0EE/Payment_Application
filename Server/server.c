@@ -150,32 +150,19 @@ EN_transState_t recieveTransactionData(ST_transaction_t* transData)
 	if (saveTransaction(transData) == SAVING_FAILED)
 		return INTERNAL_SERVER_ERROR;
 
-	if (state == APPROVED)
-		updateBalance(transData);
-
 	return state;
 
 }
 
 EN_serverError_t isValidAccount(ST_cardData_t* cardData)
 {
-	FILE* file = NULL;
-	fopen_s(&file, "./DB/Accounts DB.txt", "r");
-	if (file == 0)
-		return INTERNAL_SERVER_ERROR;
 
-	int result = 0;
-	char buffer[30] = { 0 };
-
-	// Checking for PAN in DB
-	while ((result = fscanf_s(file, "Card Data: %[^,] ,  %*f\n", buffer, (unsigned int)_countof(buffer))) != EOF)
+	for (int i = 0; i < AccountNum; i++)
 	{
-		if (strcmp(cardData->primaryAccountNumber, buffer) == 0)
+		if (strcmp(cardData->primaryAccountNumber, AccountDB[i].primaryAccountNumber) == 0)
 		{
-			fclose(file);
 			return SERVER_OK;
 		}
-			
 	}
 
 	return ACCOUNT_NOT_FOUND;
@@ -186,35 +173,22 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 {
 	ST_cardData_t* cardData = &transData->cardHolderData;
 
-	FILE* file = NULL;
-	fopen_s(&file, "./DB/Accounts DB.txt", "r");
-	if (file == 0)
-		return ACCOUNT_NOT_FOUND;
-
-	char buffer[30] = { 0 };
-	float balance = 0;
-	int result = 0;
-
-	// Checking for PAN in DB
-	while ((result = fscanf_s(file, "Card Data: %[^,] ,  %f\n", buffer, (unsigned int)_countof(buffer), &balance)) != EOF)
+	// Check for the account balance in the AccountDB
+	for (int i = 0; i < AccountNum; i++)
 	{
-		if (strcmp(cardData->primaryAccountNumber, buffer) == 0)
+		if (strcmp(cardData->primaryAccountNumber, AccountDB[i].primaryAccountNumber) == 0)
 		{
-			if (transData->terminalData.transAmount > balance)
+
+			if (transData->terminalData.transAmount > AccountDB[i].balance)
 			{
-				fclose(file);
-				return LOW_BALANCE;			
+				return LOW_BALANCE;
 			}
 			else
 			{
-				fclose(file);
 				return SERVER_OK;
 			}
-				
 		}
 	}
-
-	fclose(file);
 
 	return ACCOUNT_NOT_FOUND;
 
@@ -222,68 +196,27 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 
 EN_serverError_t saveTransaction(ST_transaction_t* transData)
 {
-	ST_cardData_t* cardData = &(transData->cardHolderData);
-
-	FILE* file = NULL;
-	fopen_s(&file, "./DB/Transactions DB.txt", "a+");
-	if (file == 0)
+	if (saveTransactionDB() == SAVING_FAILED)
 		return SAVING_FAILED;
 
-	int transNumber = 0;
-	int result = 0;
-	
-	while ((result = fscanf_s(file, "%*[^\n]\n")) != EOF)
-	{
-		transNumber++;
-	}
-
-	transData->transactionSequenceNumber = transNumber;
-
-	ST_cardData_t *card = &transData->cardHolderData;
-	ST_terminalData_t* terminal = &transData->terminalData;
-
-	fprintf(file, "Transaction Data: %d, %d, ", transData->transactionSequenceNumber, transData->transState);
-	fprintf(file, "Card Data: %s, %s, %s, ", card->primaryAccountNumber, card->cardHolderName, card->cardExpirationDate);
-	fprintf(file, "Terminal Data: %f, %s, %f\n", terminal->maxTransAmount, terminal->transactionDate, terminal->transAmount);
-	
-
-	fclose(file);
+	if (saveAccountDB() == SAVING_FAILED)
+		return SAVING_FAILED;
 
 	return SERVER_OK;
 }
 
 EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transaction_t* transData)
 {
-	FILE* file = NULL;
-	fopen_s(&file, "./DB/Transactions DB.txt", "r");
-	if (file == 0)
-		return TRANSACTION_NOT_FOUND;
-
-	int transNumber = 0;
-	int result = 0;
-	while ((transNumber++ < transactionSequenceNumber) && ((result = fscanf_s(file, "%*[^\n]\n")) != EOF));
-
-	if (result == EOF)
+	// Retrieve the transaction from TransactionDB
+	for (int i = 0; i < TransactionNum; i++)
 	{
-		fclose(file);
-		return TRANSACTION_NOT_FOUND;
+		if (transactionSequenceNumber == TransactionDB[i].transactionSequenceNumber)
+		{
+			*transData = TransactionDB[i];
+			return SERVER_OK;
+		}
 	}
-		
 
-	ST_cardData_t* card = &transData->cardHolderData;
-	ST_terminalData_t* terminal = &transData->terminalData;
-
-	fscanf_s(file, "Transaction Data: %d, %d, ", &transData->transactionSequenceNumber, &transData->transState);
-	fscanf_s(file, "Card Data: %[^,] ,  %[^,] ,  %[^,] , ", card->primaryAccountNumber, (unsigned int)_countof(card->primaryAccountNumber),
-															card->cardHolderName, (unsigned int)_countof(card->cardHolderName),
-															card->cardExpirationDate, (unsigned int)_countof(card->cardExpirationDate));
-
-	fscanf_s(file, "Terminal Data: %f,  %[^,] , %f\n", &terminal->maxTransAmount, 
-													   terminal->transactionDate, (unsigned int)_countof(terminal->transactionDate),
-													   &terminal->transAmount);
-
-	fclose(file);
-
-	return SERVER_OK;
+	return TRANSACTION_NOT_FOUND;
 
 }
