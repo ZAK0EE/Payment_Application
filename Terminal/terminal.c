@@ -10,10 +10,14 @@
 
 EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 {
+	// Get current system's time
 	time_t now = time(0);
+
+	// Failed to aquire curernt time
 	if(now == (time_t)(-1))
 		return WRONG_DATE;
 
+	// Convert time into human readable format
 	struct tm timeInfo;
 	if (localtime_s(&timeInfo, &now) != 0)
 		return WRONG_DATE;
@@ -34,16 +38,19 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termData)
 {
 	int cardMon, cardYr, transMon, transYr;
+	int result = 0;
 	
-	
-	if (sscanf_s(cardData.cardExpirationDate, "%d/%d", &cardMon, &cardYr) != 2)
+	result = sscanf_s(cardData.cardExpirationDate, "%d/%d", &cardMon, &cardYr);
+	if (result != 2)
 		return EXPIRED_CARD;
-	cardYr += 2000; //cardYr is stored as YY
+	cardYr += 2000; // cardYr is stored as YY
 
-	if(sscanf_s(termData.transactionDate, "%*d/%d/%d", &transMon, &transYr) != 2)
+	result = sscanf_s(termData.transactionDate, "%*d/%d/%d", &transMon, &transYr);
+	if(result != 2)
 		return EXPIRED_CARD;
 
-	if (cardYr < transYr || (cardYr == transYr && cardMon < transMon))
+	// Check if card date is older than transaction date
+	if ((cardYr < transYr) || ((cardYr == transYr) && (cardMon < transMon)))
 		return EXPIRED_CARD;
 	return TERMINAL_OK;
 }
@@ -53,8 +60,11 @@ EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termD
 static float getAmount()
 {
 	float amount = 0;
+	int result = 0;
 	printf("Please enter amount: ");
-	if (scanf_s("%f", &amount) != 1)
+
+	result = scanf_s("%f", &amount);
+	if (result != 1)
 	{
 		return 0;
 	}
@@ -88,8 +98,11 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t* termData)
 static float getMaxAmount()
 {
 	float maxAmount = 0;
+	int result = 0;
 	printf("Please enter max amount: ");
-	if (scanf_s("%f", &maxAmount) != 1)
+
+	result = scanf_s("%f", &maxAmount);
+	if (result != 1)
 	{
 		return 0;
 	}

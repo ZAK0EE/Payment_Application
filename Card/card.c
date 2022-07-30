@@ -163,7 +163,7 @@ EN_cardError_t getCardPAN(ST_cardData_t* cardData)
 	if(cardPAN != NULL)
 		cardPANLen = strlen(cardPAN);
 
-	if (cardPAN == NULL || cardPANLen > MAX_PAN_LEN || cardPANLen < MIN_PAN_LEN || !validatePAN(cardPAN))
+	if ((cardPAN == NULL) || (cardPANLen > MAX_PAN_LEN) || (cardPANLen < MIN_PAN_LEN) || (!validatePAN(cardPAN)))
 		return WRONG_PAN;
 
 	strcpy_s(cardData->primaryAccountNumber, cardPANLen + 1, cardPAN);
