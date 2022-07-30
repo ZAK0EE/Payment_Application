@@ -6,10 +6,10 @@
 
 // Database vairables (database is stored in memory during the program)
 ST_accountsDB_t AccountDB[1000] = {0};
-int AccountNum = 0;
+int AccountNum = 0; // Number of accounts in AccountDB
 
 ST_transaction_t TransactionDB[1000] = { 0 };
-int TransactionNum = 0;
+int TransactionNum = 0; // Number of transactions in TransactionDB
 
 
 /** @brief This function will load the accounts data from the Accounts DB
@@ -194,7 +194,27 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 
 EN_serverError_t saveTransaction(ST_transaction_t* transData)
 {
+	// Add the sequence number to the transaction
+	transData->transactionSequenceNumber = TransactionNum;
+
+	// Add the new transaction
+	TransactionDB[TransactionNum++] = *transData;
+
+	// Update the Account balance
+	if (transData->transState == APPROVED)
+	{
+		for (int i = 0; i < AccountNum; i++)
+		{
+			if (strcmp(transData->cardHolderData.primaryAccountNumber, AccountDB[i].primaryAccountNumber) == 0)
+			{
+
+				AccountDB[i].balance -= transData->terminalData.transAmount;
+			}
+		}
+	}
+
 	
+
 	if (saveTransactionDB() == SAVING_FAILED)
 		return SAVING_FAILED;
 
