@@ -77,8 +77,8 @@ EN_serverError_t loadTransactionDB()
 
 	while (result != EOF)
 	{
-		ST_cardData_t* card = &TransactionDB[TransactionNum].cardHolderData;
-		ST_terminalData_t* terminal = &TransactionDB[TransactionNum].terminalData;
+		ST_cardData_t* card = &(TransactionDB[TransactionNum].cardHolderData);
+		ST_terminalData_t* terminal = &(TransactionDB[TransactionNum].terminalData);
 
 		fscanf_s(file, "Transaction Data: %d, %d, ", &TransactionDB[TransactionNum].transactionSequenceNumber, &TransactionDB[TransactionNum].transState);
 		fscanf_s(file, "Card Data: %[^,] ,  %[^,] ,  %[^,] , ",	card->primaryAccountNumber, (unsigned int)_countof(card->primaryAccountNumber),
