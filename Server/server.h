@@ -25,6 +25,13 @@ typedef enum EN_serverError_t
 	SERVER_OK, SAVING_FAILED, TRANSACTION_NOT_FOUND, ACCOUNT_NOT_FOUND, LOW_BALANCE
 }EN_serverError_t;
 
+typedef struct ST_accountsDB_t
+{
+	float balance;
+	uint8_t primaryAccountNumber[20];
+}ST_accountsDB_t;
+
+
 
 /** @brief This function will take all transaction data and validate its data.
  *			It checks the account details and amount availability.
