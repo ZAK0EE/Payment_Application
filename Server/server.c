@@ -110,9 +110,7 @@ EN_serverError_t saveTransactionDB()
 	{
 		return SAVING_FAILED;
 	}
-	printf("good\n");
 
-	TransactionDB[TransactionNum - 1].transactionSequenceNumber = 900;
 	int transactionid = 0;
 	while (transactionid < TransactionNum)
 	{
@@ -196,6 +194,7 @@ EN_serverError_t isAmountAvailable(ST_transaction_t* transData)
 
 EN_serverError_t saveTransaction(ST_transaction_t* transData)
 {
+	
 	if (saveTransactionDB() == SAVING_FAILED)
 		return SAVING_FAILED;
 
